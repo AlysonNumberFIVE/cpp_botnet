@@ -12,5 +12,8 @@ int		main(int argc, char **argv)
 		exit(1);
 	}
 	server = new Network(atoi(argv[1]));
+	server->ZeroBotlist();
+
+	server->CommandLoop();
 	return (0);
 }

