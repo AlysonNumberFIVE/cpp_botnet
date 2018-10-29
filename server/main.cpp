@@ -1,5 +1,4 @@
 
-#include "ClientManage.hpp"
 #include "Net.hpp"
 
 int		main(int argc, char **argv)
