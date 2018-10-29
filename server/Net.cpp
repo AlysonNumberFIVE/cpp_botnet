@@ -8,11 +8,12 @@
 
 Network::Network(int port_number)
 {
-	Network::sockfd = socket(AF_INET, SOCK_STREAM, 0);
+	if ((Network::sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+		ErrorAndExit("Error : socket");
 	memset(&this->sockaddr, 0, sizeof(struct sockaddr_in));
 	this->sockaddr.sin_family = AF_INET;
-	this->sockaddr.sin_addr.s_addr = INADDR_ANY;
-	this->sockaddr.sin_port = port_number;
+	this->sockaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+	this->sockaddr.sin_port = htons(port_number);
 	std::cout << "Binding to port " << port_number << std::endl;
 	if (bind(this->sockfd, (struct sockaddr *)&this->sockaddr,
 		sizeof(this->sockaddr)) < 0)
@@ -46,8 +47,9 @@ void		Network::ErrorAndExit(std::string message)
 
 void			Network::ZeroBotlist(void)
 {
-	FD_ZERO(&this->botlist);
 	this->fd_max = this->sockfd;
+
+	FD_ZERO(&this->botlist);
 	for (int const& port : this->port_list)
 	{
 		FD_SET(port, &(this->botlist));
@@ -65,12 +67,11 @@ void		Network::CommandLoop(void)
 
 	for (;;)
 	{
-		printf("file descriptor is %d\n", this->fd_max);
 		r = select(this->fd_max + 1, &this->botlist, NULL, NULL, NULL);
 		if (r)
 		{
 			if (FD_ISSET(this->sockfd, &this->botlist))
-				printf("A bot is joining\n");
+				std::cout << "A bot is joining " << std::endl;
 			break ;
 		}
 	}
