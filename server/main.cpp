@@ -12,7 +12,7 @@ int		main(int argc, char **argv)
 	}
 	server = new Network(atoi(argv[1]));
 	server->ZeroBotlist();
-
 	server->CommandLoop();
+
 	return (0);
 }

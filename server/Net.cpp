@@ -33,6 +33,10 @@ Network::~Network(void)
 	close(this->sockfd);
 }
 
+/*
+** prints error message and leaves
+*/
+
 void		Network::ErrorAndExit(std::string message)
 {
 	std::cout << message << std::endl;
@@ -60,6 +64,10 @@ void			Network::ZeroBotlist(void)
 	FD_SET(0, &(this->botlist));
 }
 
+/*
+** Main server loop: monitors STDIN and botlist.
+** responds to bots joining or input from user
+*/
 
 void		Network::CommandLoop(void)
 {
