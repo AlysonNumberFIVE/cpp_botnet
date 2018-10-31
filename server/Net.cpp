@@ -48,7 +48,7 @@ void		Network::ErrorAndExit(std::string message)
 **  so user can write commands and dispatch them to clients.
 */
 
-void			Network::ZeroBotlist(void)
+void		Network::ZeroBotlist(void)
 {
 	this->fd_max = this->sockfd;
 
@@ -84,6 +84,18 @@ void		Network::NewConnection(void)
 	/*************************************/
 }
 
+void		Network::SendBuffer(void)
+{
+	std::string		input;
+	char			*send_buffer;
+
+	std::cout << "SERVER > " << std::endl;
+	getline(std::cin, input);
+	send_buffer = strdup(input.c_str());
+	std::cout << "Command : " << send_buffer << std::endl;
+
+}
+
 /*
 ** Main server loop: monitors STDIN and botlist.
 ** responds to bots joining or input from user
@@ -100,9 +112,9 @@ void		Network::CommandLoop(void)
 		{
 			if (FD_ISSET(this->sockfd, &this->botlist))
 				NewConnection();
+			else if (FD_ISSET(0, &this->botlist))
+				SendBuffer();
 			return ;
 		}
 	}
 }
-
-

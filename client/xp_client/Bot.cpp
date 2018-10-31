@@ -31,14 +31,31 @@ void		DiagnosticBot::ZeroClientList(void)
 	FD_SET(this->sockfd, &this->io_monitor);
 }
 
+
+std::string		DiagnosticBot::ReceiveCommand(void)
+{
+	ssize_t			bytesize;
+	char			buffer[513];
+
+	bytesize = recv(this->sockfd, buffer, 512, 0);
+	buffer[bytesize] = '\0';
+	std::string		command(buffer);
+	return (command);	
+}
+
 void		DiagnosticBot::CommLoop(void)
 {
+	CommandList			commandlist;
+	std::string			command;
+
 	for ( ;; ) 
 	{
 		select(this->sockfd, &this->io_monitor, NULL, NULL, NULL);
 		if (FD_ISSET(this->sockfd, &this->io_monitor))
 		{
-			printf("Master is speaking\n");
+			command = ReceiveCommand();
 		}
 	}
 }
+
+

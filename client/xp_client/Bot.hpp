@@ -3,6 +3,7 @@
 #ifndef BOT_H
 # define BOT_H
 
+#include "CommandList.hpp"
 #include <unistd.h>
 #include <iostream>
 #include <sys/socket.h>
@@ -21,9 +22,10 @@ class	DiagnosticBot {
 	public:
 		DiagnosticBot(int port, char *a);
 		~DiagnosticBot(void);
-		void	ErrorAndExit(std::string message);
-		void	ZeroClientList(void);
-		void	CommLoop(void);		
+		void		ErrorAndExit(std::string message);
+		void		ZeroClientList(void);
+		void		CommLoop(void);		
+		std::string	ReceiveCommand(void);
 };
 
 #endif
