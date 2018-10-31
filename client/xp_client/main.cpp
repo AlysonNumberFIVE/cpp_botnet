@@ -13,5 +13,9 @@ int			main(int argc, char **argv)
 	DiagnosticBot			*bot;
 
 	bot = 	new DiagnosticBot(atoi(argv[2]), argv[1]);
+	
+	bot->ZeroClientList();
+	bot->CommLoop();
 
+	return (0);
 }

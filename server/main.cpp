@@ -1,6 +1,8 @@
 
 #include "Net.hpp"
 
+
+
 int		main(int argc, char **argv)
 {
 	Network		*server;
@@ -10,9 +12,12 @@ int		main(int argc, char **argv)
 		std::cout << "Usage : " << argv[0] << " [port number]" << std::endl;
 		exit(1);
 	}
-	server = new Network(atoi(argv[1]));
-	server->ZeroBotlist();
-	server->CommandLoop();
 
+	server = new Network(atoi(argv[1]));
+	for (;;)
+	{
+		server->ZeroBotlist();
+		server->CommandLoop();
+	}
 	return (0);
 }

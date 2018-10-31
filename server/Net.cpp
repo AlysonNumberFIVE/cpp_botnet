@@ -43,7 +43,6 @@ void		Network::ErrorAndExit(std::string message)
 	exit(1);
 }
 
-
 /*
 ** 	Sets up the socket list each loop as well as sets STDIN for listening
 **  so user can write commands and dispatch them to clients.
@@ -65,6 +64,27 @@ void			Network::ZeroBotlist(void)
 }
 
 /*
+** Accept user 
+*/
+
+void		Network::NewConnection(void)
+{
+	socklen_t	value;
+	int			newUser;
+
+	value = sizeof(this->sockaddr);
+	newUser = accept(this->sockfd, (struct sockaddr *)&this->sockaddr,
+		(socklen_t *)&value);
+	this->address_port[inet_ntoa(this->sockaddr.sin_addr)] = newUser;
+
+	/**** Printing out connection info ****/
+	std::cout << "Connection from " << inet_ntoa(this->sockaddr.sin_addr) <<
+	" Port : " << this->address_port[inet_ntoa(this->sockaddr.sin_addr)] <<
+	std::endl;
+	/*************************************/
+}
+
+/*
 ** Main server loop: monitors STDIN and botlist.
 ** responds to bots joining or input from user
 */
@@ -79,9 +99,10 @@ void		Network::CommandLoop(void)
 		if (r)
 		{
 			if (FD_ISSET(this->sockfd, &this->botlist))
-				std::cout << "A bot is joining " << std::endl;
-			break ;
+				NewConnection();
+			return ;
 		}
 	}
 }
+
 

