@@ -84,6 +84,11 @@ void		Network::NewConnection(void)
 	/*************************************/
 }
 
+/*
+** Number 4 is used to test if the damn connects to remote clients
+** and is only for testing.
+*/
+
 void		Network::SendBuffer(void)
 {
 	std::string		input;
@@ -92,10 +97,7 @@ void		Network::SendBuffer(void)
 	std::cout << "SERVER > " << std::endl;
 	getline(std::cin, input);
 	send_buffer = strdup(input.c_str());
-	std::cout << "Command : " << send_buffer << std::endl;
-	std::cout << "length is " << input.size() << std::endl;
 	size_t i = send(4, send_buffer, input.size(), 0);
-	std::cout << "Message sent " << i << std::endl;
 }
 
 /*
