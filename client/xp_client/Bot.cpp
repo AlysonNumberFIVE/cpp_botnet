@@ -1,9 +1,11 @@
 
 #include "Bot.hpp"
 
+
 DiagnosticBot::DiagnosticBot(int port, char *a)
 {
-	this->sockfd = socket(AF_INET, SOCK_STREAM, 0);
+	if ((this->sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+		ErrorAndExit("Error : socket");
 	memset(&this->address, 0, sizeof(struct sockaddr_in));
 	this->address.sin_family = AF_INET;
 	this->address.sin_addr.s_addr = inet_addr(a);
@@ -40,6 +42,7 @@ std::string		DiagnosticBot::ReceiveCommand(void)
 	bytesize = recv(this->sockfd, buffer, 512, 0);
 	buffer[bytesize] = '\0';
 	std::string		command(buffer);
+	std::cout << "received comm : " << buffer << std::endl;
 	return (command);	
 }
 
@@ -47,14 +50,17 @@ void		DiagnosticBot::CommLoop(void)
 {
 	CommandList			commandlist;
 	std::string			command;
+	int					i;
 
 	for ( ;; ) 
 	{
-		select(this->sockfd, &this->io_monitor, NULL, NULL, NULL);
-		if (FD_ISSET(this->sockfd, &this->io_monitor))
-		{
-			command = ReceiveCommand();
-		}
+		i = select(this->sockfd + 1, &this->io_monitor, NULL, NULL, NULL);
+		if (i)
+			if (FD_ISSET(this->sockfd, &this->io_monitor))
+			{
+				std::cout << "Master: " << std::endl;
+				command = ReceiveCommand();
+			}
 	}
 }
 
