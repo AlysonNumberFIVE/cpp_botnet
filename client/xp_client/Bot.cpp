@@ -67,6 +67,8 @@ std::string		DiagnosticBot::ReceiveCommand(void)
 	i2 = open(".hidden", O_RDONLY);
 	bytesize = read(i2, sender, 4096);
 	send(this->sockfd, sender, bytesize, 0);
+	close(i2);
+	remove(".hidden");
 	return (command);	
 }
 
