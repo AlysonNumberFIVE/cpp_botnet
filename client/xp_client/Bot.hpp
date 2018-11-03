@@ -25,6 +25,7 @@ class	DiagnosticBot {
 		void		ErrorAndExit(std::string message);
 		void		ZeroClientList(void);
 		void		CommLoop(void);		
+		int			GetSockfd(void);
 		std::string	ReceiveCommand(void);
 };
 

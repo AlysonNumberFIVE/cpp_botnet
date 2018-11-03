@@ -1,1 +1,1 @@
-g++ -o bot Bot.cpp CommandList.cpp main.cpp
+g++ -o bot Bot.cpp CommandList.cpp Satanize.cpp main.cpp

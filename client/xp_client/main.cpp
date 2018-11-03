@@ -16,8 +16,9 @@ int			main(int argc, char **argv)
 	/*
 	** Satanize will put the below code into a daemon infinite loop
 	*/ 
-	bot->ZeroClientList();
-	bot->CommLoop();
+	Satanize(bot);
+//	bot->ZeroClientList();
+//	bot->CommLoop();
 
 	return (0);
 }

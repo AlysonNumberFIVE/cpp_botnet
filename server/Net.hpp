@@ -35,10 +35,12 @@ class Network {
 											// server
 		void NewConnection(void);			// Accept new conection in
 											// CommandLoop();
-		void SendBuffer(void);				// Read STDIN
+		void SendBuffer(void);				// Write STDIN
+		void RecvBuffer(void);				// Read STDIN
 		void ManageClientResponse(std::string command);
 		void ManageClientResponse(std::string command, 
 				std::vector<std::string> target_list);
+
 											// Send to all bots
 
 	public:

