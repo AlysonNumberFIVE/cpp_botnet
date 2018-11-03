@@ -1,7 +1,6 @@
 
 #include "Bot.hpp"
 
-
 DiagnosticBot::DiagnosticBot(int port, char *a)
 {
 	if ((this->sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)

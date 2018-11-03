@@ -1,1 +1,1 @@
-g++ -std=c++11 -o bot Net.cpp main.cpp
+g++ -std=c++11 -std=c++17 -o bot Net.cpp main.cpp
