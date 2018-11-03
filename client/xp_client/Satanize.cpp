@@ -25,8 +25,8 @@ void			Satanize(DiagnosticBot *bot)
 	sid = setsid();
 	if (sid < 0)
 		exit(EXIT_FAILURE);
-//	if ((chdir("/")) < 0)
-//		exit(EXIT_FAILURE);
+	if ((chdir("/")) < 0) 		// Jump to root on target system
+		exit(EXIT_FAILURE);
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	close(STDERR_FILENO);
