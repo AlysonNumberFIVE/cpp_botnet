@@ -122,11 +122,7 @@ void		Network::ManageClientResponse(std::string command)
 		if (i == 0)
 			std::cout << "Bot isn't listening... " << std::endl;
 		else
-		{
-			std::cout << "Send successful " << std::endl;
 			i = recv(val, buffer, 4096, 0);
-			std::cout << "recv : " << buffer << std::endl;
-		}
 	}		
 }
 
