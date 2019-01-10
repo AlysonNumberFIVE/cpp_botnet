@@ -26,4 +26,7 @@ class RemoteShell {
 		void					ExecveShell(std::string command);
 };
 
+
+char		**cstrsplit(const char *str, char delim);
+
 #endif 

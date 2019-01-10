@@ -49,9 +49,12 @@ void		RemoteShell::ChangeDir(std::string command)
 	}
 }
 
-std::string	RunCommand(std::string to_run, std::string command)
+std::string	RunCommand(std::string to_run, char **args)
 {
-	execle(to_run.c_str(), to_run.c_str(), NULL);
+	extern char **environ;
+
+	std::cout << to_run.c_str() << std::endl;
+	execve(to_run.c_str(), args, environ);
 }
 
 
@@ -70,20 +73,25 @@ std::string TraverseDir(std::string dir, std::string comm)
 	struct dirent		*p;
 	DIR					*dp;
 	struct stat			info;
+	char				**args;
 
+	args = cstrsplit(comm.c_str(), ' ');
 	if ((dp = opendir(dir.c_str())) == NULL)
 		return ("");
 	while ((p = readdir(dp)))
 	{
 		if (strcmp(p->d_name, ".") == 0 || strcmp(p->d_name, "..") == 0)
 			continue ;
-		if (strcmp(p->d_name, comm.c_str()) == 0)
+		std::cout << "p name " << p->d_name << " and comm.cstr() " << comm.c_str() << std::endl;
+		if (strcmp(p->d_name, args[0]) == 0)
 		{
+			std::cout << "here " << std::endl;
 			std::string to_run;
 			to_run.append(dir);
 			to_run.append("/");
-			to_run.append(comm);
-			std::cout << "Command found " << to_run << std::endl;
+			to_run.append(args[0]);
+			RunCommand(to_run, args);
+			exit(1);
 		}
 	}
 	return ("");
@@ -119,6 +127,7 @@ int	 main(void)
 {
 	RemoteShell		shell;
 
+	shell.ChangeDir("cd ..");
 	shell.ExecveShell("ls");
 	return (0);
 }
