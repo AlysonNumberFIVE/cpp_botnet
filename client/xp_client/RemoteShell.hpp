@@ -23,6 +23,7 @@ class RemoteShell {
 		std::vector<std::string> stringsplit(std::string str, std::string c);
 		void					RemoteDir(std::string command);
 		void					ChangeDir(std::string command);
+		void					ExecveShell(std::string command);
 };
 
 #endif 
